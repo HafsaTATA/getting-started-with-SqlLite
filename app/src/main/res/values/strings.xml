@@ -2,4 +2,5 @@
     <string name="app_name">My DataBase Application</string>
     <string name="password">password\n</string>
     <string name="Login">Login\n</string>
+    <string name="prenom">prenom</string>
 </resources>

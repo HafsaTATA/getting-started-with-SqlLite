@@ -1,14 +1,21 @@
 package com.firstapp.calculatrice;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DB_Helper extends SQLiteOpenHelper {
     public static final String DBname="users.db";
-    public static final String TAB_members="Membres";
+    public static final String membersTable="Membres";
 
     public DB_Helper(@Nullable Context context) {
         super(context, DBname, null,1);
@@ -40,7 +47,9 @@ If you later need to make modifications to the database structure, you can incre
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // Define the SQL statement to create a table
         String createTableQuery = "CREATE TABLE IF NOT EXISTS " +
-                TAB_members +"(column1_type column1_name, column2_type column2_name, ...);";
+                membersTable +"(login TEXT, password TEXT ,nom TEXT,prenom TEXT,statut INTEGER);";
+        //statut : if =1 ==> adminsitarteur
+        //         if =2 ==> user
 
         // Execute the SQL statement
         sqLiteDatabase.execSQL(createTableQuery);
@@ -48,6 +57,60 @@ If you later need to make modifications to the database structure, you can incre
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+membersTable);
+       // onCreate(sqLiteDatabase);
+    }
 
+    public void AddUser(String login,String password,String fname,String name,int status){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values= new ContentValues();
+        values.put("login", login);
+        values.put("password", password);
+        values.put("nom", fname);
+        values.put("prenom", name);
+        values.put("statut", status);
+        db.insert(membersTable,"",values);
+    }
+
+    public ArrayList<Object> getPasswordByLogin(String login, Context context) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(membersTable,new String[]{"password"},"login=?", new String[]{login},null,null,null);
+//The Cursor is a pointer to the result set of a query. It points to a specific row in the result set.
+        ArrayList<Object> outputs = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            /*moveToFirst():
+                Moves the cursor to the first row of the result set.
+                Returns true if the cursor is not empty (i.e., there is at least one row), and false if the cursor is empty.
+                Commonly used when you expect only one result or want to process the first row of a result set.
+            */
+            int passwordIndex = cursor.getColumnIndex("password");
+            /*ATTENTION :
+            If the column with the name "password" was not found in the result set(cuz name is
+            misspelled or the column does not exist in the query result),cursor.getColumnIndex("password") will return -1.
+            which will cause an excpetion so for that we might want to add a test
+            */
+            if (passwordIndex != -1)
+                outputs.add(0,cursor.getString(passwordIndex));
+        }
+        cursor.close();
+        cursor = db.query(membersTable,new String[]{"statut"},"login=?", new String[]{login},null,null,null);
+        if (cursor.moveToFirst()) {
+            int statutIndex = cursor.getColumnIndex("statut");
+            /*ATTENTION :
+            If the column with the name "password" was not found in the result set(cuz name is
+            misspelled or the column does not exist in the query result),cursor.getColumnIndex("password") will return -1.
+            which will cause an excpetion so for that we might want to add a test
+            */
+            if (statutIndex != -1)
+                outputs.add(1, cursor.getString(statutIndex));
+
+        }
+        cursor.close();
+        db.close();
+
+        return outputs;
     }
 }
+
+

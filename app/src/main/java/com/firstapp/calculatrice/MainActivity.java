@@ -335,7 +335,9 @@ public class MainActivity extends AppCompatActivity {
                 throw new IllegalArgumentException("Invalid operator");
         }
     }
-
-
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 
 }
