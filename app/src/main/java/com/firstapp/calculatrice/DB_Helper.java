@@ -18,7 +18,9 @@ public class DB_Helper extends SQLiteOpenHelper {
     public static final String membersTable="Membres";
 
     public DB_Helper(@Nullable Context context) {
-        super(context, DBname, null,1);
+
+        super(context, DBname, null,2);
+
     }
 /*context: This parameter represents the context in which the database helper is being created
   In Android development, a Context is an object that provides access to application-specific resources, system services, and the application's environment.
@@ -45,7 +47,7 @@ If you later need to make modifications to the database structure, you can incre
     // is called when DB is created for the first time. This method is responsible for executing the SQL statements that define the initial structure of DB: creation of tables, initial population of data.
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        // Define the SQL statement to create a table
+                // Define the SQL statement to create a table
         String createTableQuery = "CREATE TABLE IF NOT EXISTS " +
                 membersTable +"(login TEXT, password TEXT ,nom TEXT,prenom TEXT,statut INTEGER);";
         //statut : if =1 ==> adminsitarteur
@@ -57,8 +59,8 @@ If you later need to make modifications to the database structure, you can incre
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+membersTable);
-       // onCreate(sqLiteDatabase);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+membersTable);
+       onCreate(sqLiteDatabase);
     }
 
     public void AddUser(String login,String password,String fname,String name,int status){
@@ -70,6 +72,8 @@ If you later need to make modifications to the database structure, you can incre
         values.put("prenom", name);
         values.put("statut", status);
         db.insert(membersTable,"",values);
+
+        db.close();
     }
 
     public ArrayList<Object> getPasswordByLogin(String login, Context context) {
@@ -77,6 +81,7 @@ If you later need to make modifications to the database structure, you can incre
         Cursor cursor = db.query(membersTable,new String[]{"password"},"login=?", new String[]{login},null,null,null);
 //The Cursor is a pointer to the result set of a query. It points to a specific row in the result set.
         ArrayList<Object> outputs = new ArrayList<>();
+        outputs.add(null);
 
         if (cursor.moveToFirst()) {
             /*moveToFirst():
@@ -97,11 +102,6 @@ If you later need to make modifications to the database structure, you can incre
         cursor = db.query(membersTable,new String[]{"statut"},"login=?", new String[]{login},null,null,null);
         if (cursor.moveToFirst()) {
             int statutIndex = cursor.getColumnIndex("statut");
-            /*ATTENTION :
-            If the column with the name "password" was not found in the result set(cuz name is
-            misspelled or the column does not exist in the query result),cursor.getColumnIndex("password") will return -1.
-            which will cause an excpetion so for that we might want to add a test
-            */
             if (statutIndex != -1)
                 outputs.add(1, cursor.getString(statutIndex));
 

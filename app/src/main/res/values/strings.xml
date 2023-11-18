@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My DataBase Application</string>
+    <string name="app_name">Calculator</string>
     <string name="password">password\n</string>
     <string name="Login">Login\n</string>
     <string name="prenom">prenom</string>

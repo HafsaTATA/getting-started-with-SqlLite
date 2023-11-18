@@ -21,20 +21,22 @@ public class login extends AppCompatActivity {
     Button login;
     String log,password;
     TextInputEditText logInput,passInput;
+    TextView signUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         DB_Helper db=new DB_Helper(this);
-
         //i'll add all administators:
-        db.AddUser("hafsa.tata@usmba.ac.ma","hafsa!!2002","TATA","Hafsa",1);
-        db.AddUser("ilyas.nhasse@usmba.ac.ma","ilyas!!2001","NHASSE","Ilyas",1);
+        //db.AddUser("hafsa.tata@usmba.ac.ma","hafsa!!2002","TATA","Hafsa",1);
+        //db.AddUser("ilyas.nhasse@usmba.ac.ma","ilyas!!2001","NHASSE","Ilyas",1);
 
         login=findViewById(R.id.button);
         logInput=findViewById(R.id.log);
         passInput=findViewById(R.id.pass);
+        signUp=findViewById(R.id.register);
+
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +57,9 @@ public class login extends AppCompatActivity {
                             } else if (output.get(1).equals("1")) {
                                 
                             }
-                        }else {
-                            Toast.makeText(login.this, "Wrong password", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(login.this, "Access denied", Toast.LENGTH_SHORT).show();
                         }
                     }else
                         Toast.makeText(login.this, "Must enter a password", Toast.LENGTH_SHORT).show();
@@ -68,7 +71,13 @@ public class login extends AppCompatActivity {
             }
         });
 
-
+    signUp.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent=new Intent(login.this,Register.class);
+            startActivity(intent);
+        }
+    });
 
 
     }
