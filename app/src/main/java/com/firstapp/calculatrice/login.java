@@ -55,7 +55,8 @@ public class login extends AppCompatActivity {
                                 Intent intent = new Intent(login.this, MainActivity.class);
                                 startActivity(intent);
                             } else if (output.get(1).equals("1")) {
-                                
+                                Intent intent = new Intent(login.this, Admin.class);
+                                startActivity(intent);
                             }
                         }
                         else {

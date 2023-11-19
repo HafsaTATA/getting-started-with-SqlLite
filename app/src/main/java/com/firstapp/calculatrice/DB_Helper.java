@@ -75,6 +75,12 @@ If you later need to make modifications to the database structure, you can incre
 
         db.close();
     }
+    public void deleteUser(String login) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(membersTable, "login=?", new String[]{login});
+        db.close();
+    }
+
 
     public ArrayList<Object> getPasswordByLogin(String login, Context context) {
         SQLiteDatabase db = this.getReadableDatabase();
