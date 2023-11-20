@@ -1,32 +1,44 @@
-# Android Calculator App 📱
-![WhatsApp Image 2023-10-22 at 13 38 22](https://github.com/HafsaTATA/Calculator_app/assets/120058921/c5a33f15-f97f-4b38-97e6-4370d00540b3)
-
+# Android Calculator App with User Authentication
 ## 👉 Overview
-This is a simple Android Calculator app that I developed using Java. It's designed to perform basic arithmetic operations and serve as a learning project for me .
-## 👉 Features 
-- Addition, subtraction, multiplication, and division
-- Clear button to reset the input
-- Clear all to reset the entire calculation
-- Delete last digit or character entered
-- Modulo operation (%)
-- x^2 (square)
-- √x (square root)
-- 1/x (reciprocal)
-## 💻Prerequisites
-Android Studio
-Android Emulator or Physical Android Device
-## 🔧Installation
-Clone the repository to your local machine:
+This Android Calculator app is an extended version of a simple calculator (check repo : https://github.com/HafsaTATA/Calculator_app.git ), now featuring user authentication and management. The app is developed in Java and uses an SQLite database to manage user access.
 
-bash
-Copy code
-git clone https://github.com/HafsaTATA/Calculator_app.git
-Open the project in Android Studio.
+## 👉 Features
 
-Build and run the app on an Android Emulator or a physical Android device.
+- **Login/Signup Interface**: Users can log in using their email and password or sign up by providing their email, password, name, and family name.
 
-## Usage
-Enter numbers and perform calculations using the buttons provided.
+- **User Authentication**: The app verifies the user's identity by checking their credentials against an SQLite database. New users must sign up, and existing users can log in.
+
+- **Administrator and Regular Users**: Users are categorized as administrators or regular users. Administrators can add or remove users, while regular users have access to the calculator.
+
+- **Secure Sign-Up**: The sign-up interface ensures that the entered email doesn't already exist in the SQLite database, preventing duplicate accounts.
+
+- **Calculator Interface**: After successful login or signup, regular users are redirected to the calculator interface where they can perform mathematical operations.
+
+## 📱 Usage
+
+1. **Login/Signup**: Launch the app and enter your email and password to log in. If you don't have an account, use the signup option to create one.
+
+2. **Calculator Interface**: Upon successful login or signup, regular users are redirected to the calculator interface.
+
+3. **Administrator Interface**: If you log in as an administrator, you'll be directed to the admin interface, allowing you to manage user accounts.
+
+## Getting Started
+
+### 💻 Prerequisites
+
+- Android Studio
+- SQLite Database
+
+### 🔧 Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your_username/your_repository.git
+
+2. Open the project in Android Studio.
+
+3. Build and run the app on an Android Emulator or a physical Android device.
 
 
 ## 📰 License
